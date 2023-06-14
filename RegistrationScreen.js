@@ -37,8 +37,9 @@ export const RegisterForm = () => {
         <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
           <View>
             <TextInput
+              placeholder="Логін"
               style={styles.input}
-              textAlign="center"
+              textAlign="left"
               onFocus={() => setIsShowKeyboard(true)}
               onChangeText={value => setState(prevState => ({ ...prevState, name: value }))}
               value={state.name}
@@ -46,8 +47,9 @@ export const RegisterForm = () => {
           </View>
           <View>
             <TextInput
+              placeholder="Адреса електронної пошти"
               style={styles.input}
-              textAlign="center"
+              textAlign="left"
               onFocus={() => setIsShowKeyboard(true)}
               onChangeText={value => setState(prevState => ({ ...prevState, email: value }))}
               value={state.email}
@@ -55,8 +57,9 @@ export const RegisterForm = () => {
           </View>
           <View>
             <TextInput
+              placeholder="Пароль"
               style={styles.input}
-              textAlign="center"
+              textAlign="left"
               secureTextEntry={true}
               onFocus={() => setIsShowKeyboard(true)}
               onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
@@ -69,6 +72,9 @@ export const RegisterForm = () => {
       <TouchableOpacity activeOpacity={0.6} style={styles.btn}>
         <Text style={styles.btnTitle}>Зареєструватися</Text>
       </TouchableOpacity>
+      <View style={styles.byLine}>
+        <Text style={styles.byLineTitle}>Вже є акаунт? Увійти</Text>
+      </View>
     </View>
   );
 };
@@ -102,21 +108,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
     height: 50,
     borderRadius: 8,
-    color: '#BDBDBD',
-
+    color: '#000',
+    padding: 16,
     // paddingHorizontal: 20,
     fontSize: 16,
   },
-  inputTitle: {
-    color: '#CFFFC2',
-    marginBottom: 10,
-    fontSize: 18,
-  },
+//   inputTitle: {
+//     color: '#CFFFC2',
+//     marginBottom: 10,
+//     fontSize: 18,
+//   },
   btn: {
     height: 50,
     borderRadius: 100,
     borderWidth: 1,
-    marginTop: 40,
+    marginTop: 11, 
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 16,
@@ -148,5 +154,10 @@ const styles = StyleSheet.create({
     fontSize: 30,
     // marginLeft: 125,
     // fontFamily: 'Rancho-Regular',
+  },
+  byLine: {
+    alignItems: 'center',
+    marginTop: 16,
+    marginBottom: 78,
   },
 });

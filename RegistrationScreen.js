@@ -13,7 +13,7 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useState } from 'react';
-import { useTogglePasswordVisibility } from './hook/useTogglePasswordVisibility';   
+import { useTogglePasswordVisibility } from './hook/useTogglePasswordVisibility';
 
 const initialState = {
   email: '',
@@ -33,11 +33,11 @@ export const RegisterForm = () => {
     setState(initialState);
   };
 
-//   const togglePassword = () => {
-//     // When the handler is invoked
-//     // inverse the boolean state of passwordShown
-//     setPasswordShown(!passwordShown);
-//   };
+  //   const togglePassword = () => {
+  //     // When the handler is invoked
+  //     // inverse the boolean state of passwordShown
+  //     setPasswordShown(!passwordShown);
+  //   };
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -81,8 +81,8 @@ export const RegisterForm = () => {
                 value={state.password}
                 // type={passwordShown ? 'text' : 'password'}
               />
-              <Pressable onPress={handlePasswordVisibility}>
-                <Text name={rightIcon} size={22} color="#232323">
+              <Pressable style={styles.pressableToogle} onPress={handlePasswordVisibility}>
+                <Text style={styles.toogleTitle} name={rightIcon}>
                   {rightIcon}
                 </Text>
               </Pressable>
@@ -173,8 +173,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     // alignItems: 'center',
-    color: '#000',
+    // color: '#000',
     fontSize: 30,
+
     // marginLeft: 125,
     // fontFamily: 'Rancho-Regular',
   },
@@ -182,5 +183,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 16,
     marginBottom: 78,
+    color: '#1B4371',
+  },
+  byLineTitle: {
+    color: '#1B4371',
+    fontSize: 16,
+  },
+  pressableToogle: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+  },
+  toogleTitle: {
+    color: '#1B4371',
+    fontSize: 16,
   },
 });

@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+// import { StatusBar } from 'expo-status-bar';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { RegisterForm } from './RegistrationScreen';
+import { LoginForm } from './LoginScreen';
 
 export default function App() {
 
@@ -24,8 +25,9 @@ const keyboardHide = () => {
       <View style={styles.container}>
         <ImageBackground style={styles.image} source={require('./assets/images/PhotoBG.png')}>
           {/* <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
-            <RegisterForm onPress={keyboardHide} />
-            {/* <StatusBar style="auto" /> */}
+          <RegisterForm onPress={keyboardHide} />
+          {/* <LoginForm onPress={keyboardHide} /> */}
+          {/* <StatusBar style="auto" /> */}
           {/* </KeyboardAvoidingView> */}
         </ImageBackground>
       </View>

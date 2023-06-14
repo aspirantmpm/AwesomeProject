@@ -33,12 +33,6 @@ export const RegisterForm = () => {
     setState(initialState);
   };
 
-  //   const togglePassword = () => {
-  //     // When the handler is invoked
-  //     // inverse the boolean state of passwordShown
-  //     setPasswordShown(!passwordShown);
-  //   };
-
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <View style={styles.container}>
@@ -79,19 +73,16 @@ export const RegisterForm = () => {
                 onFocus={() => setIsShowKeyboard(true)}
                 onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
                 value={state.password}
-                // type={passwordShown ? 'text' : 'password'}
               />
               <Pressable style={styles.pressableToogle} onPress={handlePasswordVisibility}>
                 <Text style={styles.toogleTitle} name={rightIcon}>
                   {rightIcon}
                 </Text>
               </Pressable>
-              {/* <Button onPress={togglePassword} title="Learn More" color="#841584" /> */}
             </View>
           </View>
         </KeyboardAvoidingView>
-
-        <TouchableOpacity activeOpacity={0.6} style={styles.btn}>
+        <TouchableOpacity activeOpacity={0.6} style={styles.btn} onPress={keyboardHide}>
           <Text style={styles.btnTitle}>Зареєструватися</Text>
         </TouchableOpacity>
         <View style={styles.byLine}>
@@ -104,26 +95,15 @@ export const RegisterForm = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // alignItems: 'flex-start',
-    //   alignContent: 'flex-end',
-    // flex: 1,
     backgroundColor: '#fff',
-    // justifyContent: 'flex-end',
+
     height: 549,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
   },
-  //   image: {
-  //     flex: 1,
-  //     resizeMode: 'cover',
-  //     justifyContent: 'center',
-  //     // alignItems: 'center',
-  //   },
   form: {
-    // marginTop: 30,
     marginHorizontal: 16,
     gap: 16,
-    // marginBottom: 43,
   },
   input: {
     borderWidth: 1,
@@ -133,14 +113,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: '#000',
     padding: 16,
-    // paddingHorizontal: 20,
     fontSize: 16,
   },
-  //   inputTitle: {
-  //     color: '#CFFFC2',
-  //     marginBottom: 10,
-  //     fontSize: 18,
-  //   },
   btn: {
     height: 50,
     borderRadius: 100,
@@ -159,8 +133,6 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
       },
     }),
-    // backgroundColor: Platform.OS === 'ios' ? 'transparent' : '#31E000',
-    // borderColor: Platform.OS === 'ios' ? '#31E000' : 'transparent',
   },
   btnTitle: {
     color: '#fff',
@@ -172,17 +144,12 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   headerTitle: {
-    // alignItems: 'center',
-    // color: '#000',
     fontSize: 30,
-
-    // marginLeft: 125,
-    // fontFamily: 'Rancho-Regular',
   },
   byLine: {
     alignItems: 'center',
     marginTop: 16,
-    marginBottom: 78,
+    marginBottom: 45,
     color: '#1B4371',
   },
   byLineTitle: {

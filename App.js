@@ -25,8 +25,8 @@ const keyboardHide = () => {
       <View style={styles.container}>
         <ImageBackground style={styles.image} source={require('./assets/images/PhotoBG.png')}>
           {/* <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
-          {/* <RegisterForm onPress={keyboardHide} /> */}
-          <LoginForm onPress={keyboardHide} />
+          <RegisterForm onPress={keyboardHide} />
+          {/* <LoginForm onPress={keyboardHide} /> */}
           {/* <StatusBar style="auto" /> */}
           {/* </KeyboardAvoidingView> */}
         </ImageBackground>

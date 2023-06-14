@@ -1,15 +1,19 @@
 import {
+  //   Button,
   StyleSheet,
   Text,
   View,
   ImageBackground,
+  TouchableWithoutFeedback,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  Pressable,
 } from 'react-native';
 import React, { useState } from 'react';
+import { useTogglePasswordVisibility } from './hook/useTogglePasswordVisibility';   
 
 const initialState = {
   email: '',
@@ -19,6 +23,8 @@ const initialState = {
 export const RegisterForm = () => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
+  const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
+  const [password, setPassword] = useState('');
 
   const keyboardHide = () => {
     setIsShowKeyboard(true);
@@ -27,55 +33,72 @@ export const RegisterForm = () => {
     setState(initialState);
   };
 
+//   const togglePassword = () => {
+//     // When the handler is invoked
+//     // inverse the boolean state of passwordShown
+//     setPasswordShown(!passwordShown);
+//   };
+
   return (
-    <View style={styles.container}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Реєстрація</Text>
-        </View>
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Реєстрація</Text>
+          </View>
+          <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
+            <View>
+              <TextInput
+                placeholder="Логін"
+                placeholderTextColor="#BDBDBD"
+                style={styles.input}
+                textAlign="left"
+                onFocus={() => setIsShowKeyboard(true)}
+                onChangeText={value => setState(prevState => ({ ...prevState, name: value }))}
+                value={state.name}
+              />
+            </View>
+            <View>
+              <TextInput
+                placeholder="Адреса електронної пошти"
+                placeholderTextColor="#BDBDBD"
+                style={styles.input}
+                textAlign="left"
+                onFocus={() => setIsShowKeyboard(true)}
+                onChangeText={value => setState(prevState => ({ ...prevState, email: value }))}
+                value={state.email}
+              />
+            </View>
+            <View>
+              <TextInput
+                placeholder="Пароль"
+                placeholderTextColor="#BDBDBD"
+                style={styles.input}
+                textAlign="left"
+                secureTextEntry={passwordVisibility}
+                onFocus={() => setIsShowKeyboard(true)}
+                onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
+                value={state.password}
+                // type={passwordShown ? 'text' : 'password'}
+              />
+              <Pressable onPress={handlePasswordVisibility}>
+                <Text name={rightIcon} size={22} color="#232323">
+                  {rightIcon}
+                </Text>
+              </Pressable>
+              {/* <Button onPress={togglePassword} title="Learn More" color="#841584" /> */}
+            </View>
+          </View>
+        </KeyboardAvoidingView>
 
-        <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
-          <View>
-            <TextInput
-              placeholder="Логін"
-              style={styles.input}
-              textAlign="left"
-              onFocus={() => setIsShowKeyboard(true)}
-              onChangeText={value => setState(prevState => ({ ...prevState, name: value }))}
-              value={state.name}
-            />
-          </View>
-          <View>
-            <TextInput
-              placeholder="Адреса електронної пошти"
-              style={styles.input}
-              textAlign="left"
-              onFocus={() => setIsShowKeyboard(true)}
-              onChangeText={value => setState(prevState => ({ ...prevState, email: value }))}
-              value={state.email}
-            />
-          </View>
-          <View>
-            <TextInput
-              placeholder="Пароль"
-              style={styles.input}
-              textAlign="left"
-              secureTextEntry={true}
-              onFocus={() => setIsShowKeyboard(true)}
-              onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
-              value={state.password}
-            />
-          </View>
+        <TouchableOpacity activeOpacity={0.6} style={styles.btn}>
+          <Text style={styles.btnTitle}>Зареєструватися</Text>
+        </TouchableOpacity>
+        <View style={styles.byLine}>
+          <Text style={styles.byLineTitle}>Вже є акаунт? Увійти</Text>
         </View>
-      </KeyboardAvoidingView>
-
-      <TouchableOpacity activeOpacity={0.6} style={styles.btn}>
-        <Text style={styles.btnTitle}>Зареєструватися</Text>
-      </TouchableOpacity>
-      <View style={styles.byLine}>
-        <Text style={styles.byLineTitle}>Вже є акаунт? Увійти</Text>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -113,16 +136,16 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 20,
     fontSize: 16,
   },
-//   inputTitle: {
-//     color: '#CFFFC2',
-//     marginBottom: 10,
-//     fontSize: 18,
-//   },
+  //   inputTitle: {
+  //     color: '#CFFFC2',
+  //     marginBottom: 10,
+  //     fontSize: 18,
+  //   },
   btn: {
     height: 50,
     borderRadius: 100,
     borderWidth: 1,
-    marginTop: 11, 
+    marginTop: 11,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 16,

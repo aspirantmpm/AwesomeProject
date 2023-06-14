@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-//   ImageBackground,
+  //   ImageBackground,
   TouchableWithoutFeedback,
   TextInput,
   TouchableOpacity,
@@ -14,17 +14,25 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useTogglePasswordVisibility } from './hook/useTogglePasswordVisibility';
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
 
 const initialState = {
   email: '',
   password: '',
 };
 
+const loadApplication = async () => {
+  await Font.loadAsync({
+    'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+  });
+};
+
 export const LoginForm = () => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
-  const [password, setPassword] = useState('');
+  const [isReady, setIsReady] = useState(false);
 
   const keyboardHide = () => {
     setIsShowKeyboard(true);
@@ -32,6 +40,16 @@ export const LoginForm = () => {
     console.log(state);
     setState(initialState);
   };
+
+  if (!isReady) {
+    return (
+      <AppLoading
+        startAsync={loadApplication}
+        onFinish={() => setIsReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -84,16 +102,15 @@ export const LoginForm = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {    
-    backgroundColor: '#fff',    
+  container: {
+    backgroundColor: '#fff',
     height: 489,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
   },
-
-  form: {   
+  form: {
     marginHorizontal: 16,
-    gap: 16,   
+    gap: 16,
   },
   input: {
     borderWidth: 1,
@@ -102,8 +119,9 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 8,
     color: '#000',
-    padding: 16,    
+    padding: 16,
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
   },
   btn: {
     height: 50,
@@ -127,24 +145,27 @@ const styles = StyleSheet.create({
   btnTitle: {
     color: '#fff',
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
   },
   header: {
     alignItems: 'center',
     marginTop: 32,
     marginBottom: 32,
   },
-  headerTitle: {    
+  headerTitle: {
     fontSize: 30,
+    color: '#212121',
+    fontFamily: 'Roboto-Regular',
   },
   byLine: {
     alignItems: 'center',
     marginTop: 16,
     marginBottom: 111,
-    color: '#1B4371',
   },
   byLineTitle: {
     color: '#1B4371',
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
   },
   pressableToogle: {
     position: 'absolute',
@@ -154,5 +175,6 @@ const styles = StyleSheet.create({
   toogleTitle: {
     color: '#1B4371',
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
   },
 });

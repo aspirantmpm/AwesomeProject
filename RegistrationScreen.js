@@ -14,17 +14,26 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useTogglePasswordVisibility } from './hook/useTogglePasswordVisibility';
+import * as Font from 'expo-font';
+import AppLoading from 'expo-app-loading';
 
 const initialState = {
+  name: '',
   email: '',
   password: '',
+};
+
+const loadApplication = async () => {
+  await Font.loadAsync({
+    'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+  });
 };
 
 export const RegisterForm = () => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
-  const [password, setPassword] = useState('');
+  const [isReady, setIsReady] = useState(false);
 
   const keyboardHide = () => {
     setIsShowKeyboard(true);
@@ -32,6 +41,16 @@ export const RegisterForm = () => {
     console.log(state);
     setState(initialState);
   };
+
+  if (!isReady) {
+    return (
+      <AppLoading
+        startAsync={loadApplication}
+        onFinish={() => setIsReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -96,7 +115,6 @@ export const RegisterForm = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-
     height: 549,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
@@ -114,6 +132,7 @@ const styles = StyleSheet.create({
     color: '#000',
     padding: 16,
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
   },
   btn: {
     height: 50,
@@ -137,6 +156,7 @@ const styles = StyleSheet.create({
   btnTitle: {
     color: '#fff',
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
   },
   header: {
     alignItems: 'center',
@@ -144,7 +164,9 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   headerTitle: {
+    fontFamily: 'Roboto-Regular',
     fontSize: 30,
+    color: '#212121',
   },
   byLine: {
     alignItems: 'center',
@@ -155,6 +177,7 @@ const styles = StyleSheet.create({
   byLineTitle: {
     color: '#1B4371',
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
   },
   pressableToogle: {
     position: 'absolute',
@@ -164,5 +187,6 @@ const styles = StyleSheet.create({
   toogleTitle: {
     color: '#1B4371',
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',
   },
 });

@@ -1,5 +1,4 @@
 import {
-  //   Button,
   StyleSheet,
   Text,
   View,
@@ -150,24 +149,18 @@ export const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
+  container: { 
     position: 'relative',
     backgroundColor: '#fff',
     height: 489,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     justifyContent: 'flex-end',
-    // alignItems: 'flex-end',
-    // alignContent: 'flex-end',
-    // Bottom: -50,
   },
-  image: {
-    // alignContent: 'flex-end',
+  image: {  
     flex: 1,
     resizeMode: 'cover',
-    justifyContent: 'flex-end',
-    // alignItems: 'flex-end',
+    justifyContent: 'flex-end', 
   },
   form: {
     marginHorizontal: 16,

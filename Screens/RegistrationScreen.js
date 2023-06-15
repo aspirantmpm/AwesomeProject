@@ -189,20 +189,15 @@ export const RegisterScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     backgroundColor: '#fff',
     height: 549,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    // justifyContent: 'flex-end',
-    // alignItems: 'flex-end',
   },
   image: {
-    // alignContent: 'flex-end',
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'flex-end',
-    // alignItems: 'flex-end',
   },
   form: {
     marginHorizontal: 16,
@@ -246,25 +241,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
   },
-  // avatar: {
-  //   // height: 120,
-  //   // width: 120,
-
-  //   top: -60,
-  //   borderRadius: 16,
-  //   justifyContent: 'center',
-  //   // right: 0,
-  //   // marginHorizontal: 120,
-  //   alignItems: 'center',
-  //   //
-  // },
   avatarImage: {
     width: 120,
     height: 120,
     borderRadius: 16,
     position: 'absolute',
     top: -154,
-    // justifyContent: 'center',
     backgroundColor: '#f6f6f6',
   },
   header: {
@@ -293,10 +275,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
   },
-  // pressableAddImage: {
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  // },
   addImage: {
     position: 'absolute',
     width: 25,

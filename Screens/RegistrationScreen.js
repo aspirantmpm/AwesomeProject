@@ -95,6 +95,8 @@ export const RegisterScreen = ({ navigation }) => {
     handlePassFocus();
   };
 
+  const isAvoidingKeyboard = false;
+
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
@@ -157,7 +159,7 @@ export const RegisterScreen = ({ navigation }) => {
                 </Pressable>
               </View>
             </View>
-          </KeyboardAvoidingView>
+          </KeyboardAvoidingView>          
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.btn}
@@ -165,16 +167,14 @@ export const RegisterScreen = ({ navigation }) => {
             onLayout={onLayoutRootView}
           >
             <Text style={styles.btnTitle}>Зареєструватися</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>          
           <View style={styles.byLine} onLayout={onLayoutRootView}>
-            {/* <Text style={styles.byLineTitle}>               */}
             <Pressable
               style={styles.byLineTitle}
               onPress={() => navigation.navigate('LoginScreen')}
             >
               <Text>Вже є акаунт? Увійти</Text>
             </Pressable>
-            {/* </Text> */}
           </View>
         </View>
       </ImageBackground>

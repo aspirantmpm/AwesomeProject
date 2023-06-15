@@ -1,5 +1,4 @@
 import {
-  //   Button,
   StyleSheet,
   Text,
   View,
@@ -14,8 +13,9 @@ import {
 } from 'react-native';
 import React, { useState } from 'react';
 import { useTogglePasswordVisibility } from './hook/useTogglePasswordVisibility';
-import * as Font from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import { useCallback } from 'react';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
 
 const initialState = {
   name: '',
@@ -23,17 +23,12 @@ const initialState = {
   password: '',
 };
 
-const loadApplication = async () => {
-  await Font.loadAsync({
-    'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
-  });
-};
+SplashScreen.preventAutoHideAsync();
 
 export const RegisterForm = () => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
-  const [isReady, setIsReady] = useState(false);
 
   const keyboardHide = () => {
     setIsShowKeyboard(true);
@@ -42,26 +37,33 @@ export const RegisterForm = () => {
     setState(initialState);
   };
 
-  if (!isReady) {
-    return (
-      <AppLoading
-        startAsync={loadApplication}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    );
+  const [fontsLoaded] = useFonts({
+    'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
   }
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <View style={styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <View style={styles.header}>
-            <Text style={styles.headerTitle}>Реєстрація</Text>
+          <View style={styles.header} onLayout={onLayoutRootView}>
+            <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 30, olor: '#212121' }}>
+              Реєстрація
+            </Text>
           </View>
           <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
             <View>
               <TextInput
+                onLayout={onLayoutRootView}
                 placeholder="Логін"
                 placeholderTextColor="#BDBDBD"
                 style={styles.input}
@@ -73,6 +75,7 @@ export const RegisterForm = () => {
             </View>
             <View>
               <TextInput
+                onLayout={onLayoutRootView}
                 placeholder="Адреса електронної пошти"
                 placeholderTextColor="#BDBDBD"
                 style={styles.input}
@@ -84,6 +87,7 @@ export const RegisterForm = () => {
             </View>
             <View>
               <TextInput
+                onLayout={onLayoutRootView}
                 placeholder="Пароль"
                 placeholderTextColor="#BDBDBD"
                 style={styles.input}
@@ -93,7 +97,11 @@ export const RegisterForm = () => {
                 onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
                 value={state.password}
               />
-              <Pressable style={styles.pressableToogle} onPress={handlePasswordVisibility}>
+              <Pressable
+                style={styles.pressableToogle}
+                onPress={handlePasswordVisibility}
+                onLayout={onLayoutRootView}
+              >
                 <Text style={styles.toogleTitle} name={rightIcon}>
                   {rightIcon}
                 </Text>
@@ -101,10 +109,15 @@ export const RegisterForm = () => {
             </View>
           </View>
         </KeyboardAvoidingView>
-        <TouchableOpacity activeOpacity={0.6} style={styles.btn} onPress={keyboardHide}>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          style={styles.btn}
+          onPress={keyboardHide}
+          onLayout={onLayoutRootView}
+        >
           <Text style={styles.btnTitle}>Зареєструватися</Text>
         </TouchableOpacity>
-        <View style={styles.byLine}>
+        <View style={styles.byLine} onLayout={onLayoutRootView}>
           <Text style={styles.byLineTitle}>Вже є акаунт? Увійти</Text>
         </View>
       </View>
@@ -162,11 +175,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 92,
     marginBottom: 32,
-  },
-  headerTitle: {
-    fontFamily: 'Roboto-Regular',
-    fontSize: 30,
-    color: '#212121',
   },
   byLine: {
     alignItems: 'center',

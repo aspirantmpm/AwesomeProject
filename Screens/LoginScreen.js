@@ -13,7 +13,7 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useState } from 'react';
-import { useTogglePasswordVisibility } from '../hook/useTogglePasswordVisibility';
+import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -29,6 +29,8 @@ export const LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
+    const [isEmailActive, setEmailIsActive] = useState(false);
+    const [isPassActive, setPassIsActive] = useState(false);
 
   const keyboardHide = () => {
     setIsShowKeyboard(true);
@@ -49,7 +51,33 @@ export const LoginScreen = ({ navigation }) => {
 
   if (!fontsLoaded) {
     return null;
-  }
+  };
+
+  const handleEmailFocus = () => {
+    setEmailIsActive(true);
+  };
+
+  const handleEmailBlur = () => {
+    setEmailIsActive(false);
+  };
+
+  const handleEmailOnFocus = () => {
+    setIsShowKeyboard(true);
+    handleEmailFocus();
+  };
+
+  const handlePassFocus = () => {
+    setPassIsActive(true);
+  };
+
+  const handlePassBlur = () => {
+    setPassIsActive(false);
+  };
+
+  const handlePassOnFocus = () => {
+    setIsShowKeyboard(true);
+    handlePassFocus();
+  };
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -67,9 +95,10 @@ export const LoginScreen = ({ navigation }) => {
                   onLayout={onLayoutRootView}
                   placeholder="Адреса електронної пошти"
                   placeholderTextColor="#BDBDBD"
-                  style={styles.input}
+                  style={[styles.input, isEmailActive ? styles.activeInput : null]}
+                  onFocus={handleEmailOnFocus}
+                  onBlur={handleEmailBlur}
                   textAlign="left"
-                  onFocus={() => setIsShowKeyboard(true)}
                   onChangeText={value => setState(prevState => ({ ...prevState, email: value }))}
                   value={state.email}
                 />
@@ -79,10 +108,11 @@ export const LoginScreen = ({ navigation }) => {
                   onLayout={onLayoutRootView}
                   placeholder="Пароль"
                   placeholderTextColor="#BDBDBD"
-                  style={styles.input}
+                  style={[styles.input, isPassActive ? styles.activeInput : null]}
+                  onFocus={handlePassOnFocus}
+                  onBlur={handlePassBlur}
                   textAlign="left"
                   secureTextEntry={passwordVisibility}
-                  onFocus={() => setIsShowKeyboard(true)}
                   onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
                   value={state.password}
                 />
@@ -153,6 +183,9 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
+  },
+  activeInput: {
+    borderColor: '#FF6C00',
   },
   btn: {
     height: 50,

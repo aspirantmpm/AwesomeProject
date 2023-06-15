@@ -31,6 +31,7 @@ export const RegisterScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
+  const [isActive, setIsActive] = useState(false);
 
   const keyboardHide = () => {
     setIsShowKeyboard(true);
@@ -51,12 +52,25 @@ export const RegisterScreen = ({ navigation }) => {
 
   if (!fontsLoaded) {
     return null;
-  }
+  };
+
+const handleFocus = () => {
+  setIsActive(true);
+};
+
+const handleBlur = () => {
+  setIsActive(false);
+  };
+  
+  const handleOnFocus = () => {
+    setIsShowKeyboard(true);
+    handleFocus();
+  };
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
-        <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
+      <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
+        <View style={styles.container}>
           <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View style={styles.header} onLayout={onLayoutRootView}>
               <Image source={AvatarImage} style={styles.avatarImage} />
@@ -70,11 +84,12 @@ export const RegisterScreen = ({ navigation }) => {
                   onLayout={onLayoutRootView}
                   placeholder="Логін"
                   placeholderTextColor="#BDBDBD"
-                  style={styles.input}
+                  style={[styles.input, isActive ? styles.activeInput : null]}
                   textAlign="left"
-                  onFocus={() => setIsShowKeyboard(true)}
+                  onFocus={handleOnFocus}
                   onChangeText={value => setState(prevState => ({ ...prevState, name: value }))}
                   value={state.name}
+                  onBlur={handleBlur}
                   // theme={{ colors: { primary: 'green', underlineColor: 'transparent' } }}
                   // onFocus={() => {
                   //   this.onFocus('rgba(5, 25, 55, 0.8)', 'rgba(0,0,0,0.2)');
@@ -127,30 +142,37 @@ export const RegisterScreen = ({ navigation }) => {
           </TouchableOpacity>
           <View style={styles.byLine} onLayout={onLayoutRootView}>
             {/* <Text style={styles.byLineTitle}>               */}
-              <Pressable
-                style={styles.byLineTitle}
-                onPress={() => navigation.navigate('LoginScreen')}
-              >
-                <Text>Вже є акаунт? Увійти</Text>
-              </Pressable>
+            <Pressable
+              style={styles.byLineTitle}
+              onPress={() => navigation.navigate('LoginScreen')}
+            >
+              <Text>Вже є акаунт? Увійти</Text>
+            </Pressable>
             {/* </Text> */}
           </View>
-        </ImageBackground>
-      </View>
+        </View>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
     backgroundColor: '#fff',
     height: 549,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
+    // justifyContent: 'flex-end',
+    // alignItems: 'flex-end',
+  },
+  image: {
+    // alignContent: 'flex-end',
+    flex: 1,
+    resizeMode: 'cover',
     justifyContent: 'flex-end',
     // alignItems: 'flex-end',
   },
-
   form: {
     marginHorizontal: 16,
     gap: 16,
@@ -165,6 +187,9 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
+  },
+  activeInput: {
+    backgroundColor: 'red',
   },
   btn: {
     height: 50,

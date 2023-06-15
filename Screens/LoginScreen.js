@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  //   ImageBackground,
+  ImageBackground,
   TouchableWithoutFeedback,
   TextInput,
   TouchableOpacity,
@@ -53,79 +53,91 @@ export const LoginScreen = ({ navigation }) => {
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <View style={styles.header} onLayout={onLayoutRootView}>
-            <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 30, color: '#212121' }}>
-              Увійти
+      <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
+        <View style={styles.container}>
+          <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <View style={styles.header} onLayout={onLayoutRootView}>
+              <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 30, color: '#212121' }}>
+                Увійти
+              </Text>
+            </View>
+            <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
+              <View>
+                <TextInput
+                  onLayout={onLayoutRootView}
+                  placeholder="Адреса електронної пошти"
+                  placeholderTextColor="#BDBDBD"
+                  style={styles.input}
+                  textAlign="left"
+                  onFocus={() => setIsShowKeyboard(true)}
+                  onChangeText={value => setState(prevState => ({ ...prevState, email: value }))}
+                  value={state.email}
+                />
+              </View>
+              <View>
+                <TextInput
+                  onLayout={onLayoutRootView}
+                  placeholder="Пароль"
+                  placeholderTextColor="#BDBDBD"
+                  style={styles.input}
+                  textAlign="left"
+                  secureTextEntry={passwordVisibility}
+                  onFocus={() => setIsShowKeyboard(true)}
+                  onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
+                  value={state.password}
+                />
+                <Pressable style={styles.pressableToogle} onPress={handlePasswordVisibility}>
+                  <Text style={styles.toogleTitle} name={rightIcon}>
+                    {rightIcon}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </KeyboardAvoidingView>
+
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.btn}
+            onPress={keyboardHide}
+            onLayout={onLayoutRootView}
+          >
+            <Text style={styles.btnTitle}>Увійти</Text>
+          </TouchableOpacity>
+          <View style={styles.byLine} onLayout={onLayoutRootView}>
+            <Text style={styles.byLineTitle}>
+              <Pressable
+                style={styles.byLineTitle}
+                onPress={() => navigation.navigate('RegisterScreen')}
+              >
+                <Text>Немає акаунту? Зареєструватись</Text>
+              </Pressable>
             </Text>
           </View>
-          <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
-            <View>
-              <TextInput
-                onLayout={onLayoutRootView}
-                placeholder="Адреса електронної пошти"
-                placeholderTextColor="#BDBDBD"
-                style={styles.input}
-                textAlign="left"
-                onFocus={() => setIsShowKeyboard(true)}
-                onChangeText={value => setState(prevState => ({ ...prevState, email: value }))}
-                value={state.email}
-              />
-            </View>
-            <View>
-              <TextInput
-                onLayout={onLayoutRootView}
-                placeholder="Пароль"
-                placeholderTextColor="#BDBDBD"
-                style={styles.input}
-                textAlign="left"
-                secureTextEntry={passwordVisibility}
-                onFocus={() => setIsShowKeyboard(true)}
-                onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
-                value={state.password}
-              />
-              <Pressable style={styles.pressableToogle} onPress={handlePasswordVisibility}>
-                <Text style={styles.toogleTitle} name={rightIcon}>
-                  {rightIcon}
-                </Text>
-              </Pressable>
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-
-        <TouchableOpacity
-          activeOpacity={0.6}
-          style={styles.btn}
-          onPress={keyboardHide}
-          onLayout={onLayoutRootView}
-        >
-          <Text style={styles.btnTitle}>Увійти</Text>
-        </TouchableOpacity>
-        <View style={styles.byLine} onLayout={onLayoutRootView}>
-          <Text style={styles.byLineTitle}>
-            <Pressable
-              style={styles.byLineTitle}
-              onPress={() => navigation.navigate('RegisterScreen')}
-            >
-              <Text>Немає акаунту? Зареєструватись</Text>
-            </Pressable>
-          </Text>
         </View>
-      </View>
+      </ImageBackground>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
     position: 'relative',
     backgroundColor: '#fff',
     height: 489,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     justifyContent: 'flex-end',
-// Bottom: -50,
+    // alignItems: 'flex-end',
+    // alignContent: 'flex-end',
+    // Bottom: -50,
+  },
+  image: {
+    // alignContent: 'flex-end',
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'flex-end',
+    // alignItems: 'flex-end',
   },
   form: {
     marginHorizontal: 16,

@@ -30,7 +30,7 @@ export default function App() {
   };
 
   return (
-    <NavigationContainer>
+    <NavigationContainer style={styles.navigatorContainer}>
       {/* <TouchableWithoutFeedback onPress={keyboardHide}> */}
       {/* <View style={styles.container}>
           <ImageBackground style={styles.image} source={require('./assets/images/PhotoBG.png')}> */}
@@ -66,9 +66,9 @@ const styles = StyleSheet.create({
     // justifyContent: 'flex-end',
     // alignItems: 'flex-end',
   },
-  // navigatorContainer: {
-  //   // justifyContent: 'flex-end',
-  //   // alignItems: 'flex-end',
-  //   // alignContent: 'flex-end',
-  // },
+  navigatorContainer: {
+    // justifyContent: 'flex-end',
+    // alignItems: 'flex-end',
+    // alignContent: 'flex-end',
+  },
 });

@@ -18,6 +18,8 @@ import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import AvatarImage from '../assets/images/ava.jpg';
+import AddImage from '../assets/images/add.png';
+import AddedImage from '../assets/images/added.png';
 
 const initialState = {
   name: '',
@@ -104,6 +106,9 @@ export const RegisterScreen = ({ navigation }) => {
           <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View style={styles.header} onLayout={onLayoutRootView}>
               <Image source={AvatarImage} style={styles.avatarImage} />
+              <Pressable style={styles.pressableAddImage}>
+                <Image source={AvatarImage ? AddedImage : AddImage} style={styles.addImage} />
+              </Pressable>
               <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 30, color: '#212121' }}>
                 Реєстрація
               </Text>
@@ -159,7 +164,7 @@ export const RegisterScreen = ({ navigation }) => {
                 </Pressable>
               </View>
             </View>
-          </KeyboardAvoidingView>          
+          </KeyboardAvoidingView>
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.btn}
@@ -167,7 +172,7 @@ export const RegisterScreen = ({ navigation }) => {
             onLayout={onLayoutRootView}
           >
             <Text style={styles.btnTitle}>Зареєструватися</Text>
-          </TouchableOpacity>          
+          </TouchableOpacity>
           <View style={styles.byLine} onLayout={onLayoutRootView}>
             <Pressable
               style={styles.byLineTitle}
@@ -287,5 +292,16 @@ const styles = StyleSheet.create({
     color: '#1B4371',
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
+  },
+  // pressableAddImage: {
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
+  addImage: {
+    position: 'absolute',
+    width: 25,
+    height: 25,
+    top: -78,
+    right: -72,
   },
 });

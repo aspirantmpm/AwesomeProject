@@ -1,8 +1,9 @@
 import {
+  //   Button,
   StyleSheet,
   Text,
   View,
-  ImageBackground,
+  //   ImageBackground,
   TouchableWithoutFeedback,
   TextInput,
   TouchableOpacity,
@@ -12,20 +13,19 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useState } from 'react';
-import { useTogglePasswordVisibility } from './hook/useTogglePasswordVisibility';
+import { useTogglePasswordVisibility } from '../hook/useTogglePasswordVisibility';
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 
 const initialState = {
-  name: '',
   email: '',
   password: '',
 };
 
 SplashScreen.preventAutoHideAsync();
 
-export const RegisterForm = () => {
+export const LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
@@ -38,7 +38,7 @@ export const RegisterForm = () => {
   };
 
   const [fontsLoaded] = useFonts({
-    'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -56,23 +56,11 @@ export const RegisterForm = () => {
       <View style={styles.container}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <View style={styles.header} onLayout={onLayoutRootView}>
-            <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 30, olor: '#212121' }}>
-              Реєстрація
+            <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 30, color: '#212121' }}>
+              Увійти
             </Text>
           </View>
           <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
-            <View>
-              <TextInput
-                onLayout={onLayoutRootView}
-                placeholder="Логін"
-                placeholderTextColor="#BDBDBD"
-                style={styles.input}
-                textAlign="left"
-                onFocus={() => setIsShowKeyboard(true)}
-                onChangeText={value => setState(prevState => ({ ...prevState, name: value }))}
-                value={state.name}
-              />
-            </View>
             <View>
               <TextInput
                 onLayout={onLayoutRootView}
@@ -97,11 +85,7 @@ export const RegisterForm = () => {
                 onChangeText={value => setState(prevState => ({ ...prevState, password: value }))}
                 value={state.password}
               />
-              <Pressable
-                style={styles.pressableToogle}
-                onPress={handlePasswordVisibility}
-                onLayout={onLayoutRootView}
-              >
+              <Pressable style={styles.pressableToogle} onPress={handlePasswordVisibility}>
                 <Text style={styles.toogleTitle} name={rightIcon}>
                   {rightIcon}
                 </Text>
@@ -109,16 +93,24 @@ export const RegisterForm = () => {
             </View>
           </View>
         </KeyboardAvoidingView>
+
         <TouchableOpacity
           activeOpacity={0.6}
           style={styles.btn}
           onPress={keyboardHide}
           onLayout={onLayoutRootView}
         >
-          <Text style={styles.btnTitle}>Зареєструватися</Text>
+          <Text style={styles.btnTitle}>Увійти</Text>
         </TouchableOpacity>
         <View style={styles.byLine} onLayout={onLayoutRootView}>
-          <Text style={styles.byLineTitle}>Вже є акаунт? Увійти</Text>
+          <Text style={styles.byLineTitle}>
+            <Pressable
+              style={styles.byLineTitle}
+              onPress={() => navigation.navigate('RegisterScreen')}
+            >
+              <Text>Немає акаунту? Зареєструватись</Text>
+            </Pressable>
+          </Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -127,10 +119,13 @@ export const RegisterForm = () => {
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     backgroundColor: '#fff',
-    height: 549,
+    height: 489,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
+    justifyContent: 'flex-end',
+// Bottom: -50,
   },
   form: {
     marginHorizontal: 16,
@@ -173,14 +168,13 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginTop: 92,
+    marginTop: 32,
     marginBottom: 32,
   },
   byLine: {
     alignItems: 'center',
     marginTop: 16,
-    marginBottom: 45,
-    color: '#1B4371',
+    marginBottom: 111,
   },
   byLineTitle: {
     color: '#1B4371',

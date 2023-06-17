@@ -28,11 +28,11 @@ export const LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
-    const [isEmailActive, setEmailIsActive] = useState(false);
-    const [isPassActive, setPassIsActive] = useState(false);
+  const [isEmailActive, setEmailIsActive] = useState(false);
+  const [isPassActive, setPassIsActive] = useState(false);  
 
   const keyboardHide = () => {
-    setIsShowKeyboard(true);
+    setIsShowKeyboard(false);
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
@@ -50,7 +50,7 @@ export const LoginScreen = ({ navigation }) => {
 
   if (!fontsLoaded) {
     return null;
-  };
+  }
 
   const handleEmailFocus = () => {
     setEmailIsActive(true);
@@ -79,16 +79,16 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
-      <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
-        <View style={styles.container}>
+    <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
+      <TouchableWithoutFeedback onPress={keyboardHide}>
+        <View style={{ ...styles.container, height: isShowKeyboard ? 248 : 489 }}>
           <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View style={styles.header} onLayout={onLayoutRootView}>
               <Text style={{ fontFamily: 'Roboto-Regular', fontSize: 30, color: '#212121' }}>
                 Увійти
               </Text>
             </View>
-            <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
+            <View style={{ ...styles.form, marginBottom: isShowKeyboard ? 32 : 43 }}>
               <View>
                 <TextInput
                   onLayout={onLayoutRootView}
@@ -123,44 +123,43 @@ export const LoginScreen = ({ navigation }) => {
               </View>
             </View>
           </KeyboardAvoidingView>
-
-          <TouchableOpacity
-            activeOpacity={0.6}
-            style={styles.btn}
-            onPress={keyboardHide}
-            onLayout={onLayoutRootView}
-          >
-            <Text style={styles.btnTitle}>Увійти</Text>
-          </TouchableOpacity>
-          <View style={styles.byLine} onLayout={onLayoutRootView}>
-            <Text style={styles.byLineTitle}>
-              <Pressable
-                style={styles.byLineTitle}
-                onPress={() => navigation.navigate('RegisterScreen')}
+          {!isEmailActive  && (
+            <View style={styles.down}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={styles.btn}
+                onPress={keyboardHide}
+                onLayout={onLayoutRootView}
               >
-                <Text>Немає акаунту? Зареєструватись</Text>
-              </Pressable>
-            </Text>
-          </View>
+                <Text style={styles.btnTitle}>Увійти</Text>
+              </TouchableOpacity>
+              <View style={styles.byLine} onLayout={onLayoutRootView}>
+                
+                <Pressable
+                  style={styles.byLineTitle}
+                  onPress={() => navigation.navigate('RegisterScreen')}
+                >
+                  <Text>Немає акаунту? Зареєструватись</Text>
+                </Pressable>               
+              </View>
+            </View>
+          )}
         </View>
-      </ImageBackground>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { 
-    position: 'relative',
-    backgroundColor: '#fff',
-    height: 489,
+  container: {   
+    backgroundColor: '#fff',   
     borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
-    justifyContent: 'flex-end',
+    borderTopRightRadius: 50,    
   },
-  image: {  
+  image: {
     flex: 1,
     resizeMode: 'cover',
-    justifyContent: 'flex-end', 
+    justifyContent: 'flex-end',
   },
   form: {
     marginHorizontal: 16,
@@ -211,8 +210,7 @@ const styles = StyleSheet.create({
   },
   byLine: {
     alignItems: 'center',
-    marginTop: 16,
-    marginBottom: 111,
+    marginTop: 16,   
   },
   byLineTitle: {
     color: '#1B4371',

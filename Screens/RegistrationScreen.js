@@ -38,7 +38,7 @@ export const RegisterScreen = ({ navigation }) => {
   const [isPassActive, setPassIsActive] = useState(false);
 
   const keyboardHide = () => {
-    setIsShowKeyboard(true);
+    setIsShowKeyboard(false);
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
@@ -96,13 +96,11 @@ export const RegisterScreen = ({ navigation }) => {
     setIsShowKeyboard(true);
     handlePassFocus();
   };
-
-  const isAvoidingKeyboard = false;
-
+  
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
-      <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
-        <View style={styles.container}>
+    <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
+      <TouchableWithoutFeedback onPress={keyboardHide}>
+        <View style={{ ...styles.container, height: isShowKeyboard ? 375 : 549 }}>
           <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View style={styles.header} onLayout={onLayoutRootView}>
               <Image source={AvatarImage} style={styles.avatarImage} />
@@ -113,7 +111,7 @@ export const RegisterScreen = ({ navigation }) => {
                 Реєстрація
               </Text>
             </View>
-            <View style={{ ...styles.form, marginBottom: setIsShowKeyboard ? 32 : 43 }}>
+            <View style={{ ...styles.form, marginBottom: isShowKeyboard ? 32 : 43 }}>
               <View>
                 <TextInput
                   onLayout={onLayoutRootView}
@@ -165,32 +163,35 @@ export const RegisterScreen = ({ navigation }) => {
               </View>
             </View>
           </KeyboardAvoidingView>
-          <TouchableOpacity
-            activeOpacity={0.6}
-            style={styles.btn}
-            onPress={keyboardHide}
-            onLayout={onLayoutRootView}
-          >
-            <Text style={styles.btnTitle}>Зареєструватися</Text>
-          </TouchableOpacity>
-          <View style={styles.byLine} onLayout={onLayoutRootView}>
-            <Pressable
-              style={styles.byLineTitle}
-              onPress={() => navigation.navigate('LoginScreen')}
-            >
-              <Text>Вже є акаунт? Увійти</Text>
-            </Pressable>
-          </View>
+          {!isNameActive && (
+            <View style={styles.down}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                style={styles.btn}
+                onPress={keyboardHide}
+                onLayout={onLayoutRootView}
+              >
+                <Text style={styles.btnTitle}>Зареєструватися</Text>
+              </TouchableOpacity>              
+              <View style={styles.byLine} onLayout={onLayoutRootView}>
+                <Pressable
+                  style={styles.byLineTitle}
+                  onPress={() => navigation.navigate('LoginScreen')}
+                >
+                  <Text>Вже є акаунт? Увійти</Text>
+                </Pressable>
+              </View>
+            </View>
+          )}
         </View>
-      </ImageBackground>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    height: 549,
+    backgroundColor: '#fff',    
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
   },
@@ -256,9 +257,7 @@ const styles = StyleSheet.create({
   },
   byLine: {
     alignItems: 'center',
-    marginTop: 16,
-    marginBottom: 45,
-    color: '#1B4371',
+    marginTop: 16,     
   },
   byLineTitle: {
     color: '#1B4371',

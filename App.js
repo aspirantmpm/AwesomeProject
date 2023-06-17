@@ -1,18 +1,23 @@
 import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
-import React, { useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RegisterScreen } from './Screens/RegistrationScreen';
 import { LoginScreen } from './Screens/LoginScreen';
-import { Home } from './Screens/HomeScreen';
+// import { Home } from './Screens/Home';
+// import { PostsScreen } from './Screens/PostsScreen';
+// import { CreatePostsScreen } from './Screens/CreatePostsScreen';
+// import { CommentsScreen } from './Screens/CommentsScreen';
+// import { ProfileScreen } from './Screens/ProfileScreen';
+// import { MapScreen } from './Screens/MapScreen';
 
 const MainStack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer style={styles.navigatorContainer}>
-      <MainStack.Navigator initialRouteName="LoginScreen">
+    <NavigationContainer>
+      <MainStack.Navigator initialRouteName="Home">
         <MainStack.Screen
           name="RegisterScreen"
           component={RegisterScreen}
@@ -23,19 +28,31 @@ export default function App() {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        {/* <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        <MainStack.Screen
+          name="PostsScreen"
+          component={PostsScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="CreatePostsScreen"
+          component={CreatePostsScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="CommentsScreen"
+          component={CommentsScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen name="MapScreen" component={MapScreen} options={{ headerShown: false }} /> */}
       </MainStack.Navigator>
     </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  image: {
-    flex: 1,
-    resizeMode: 'cover',
-  },
-});
+

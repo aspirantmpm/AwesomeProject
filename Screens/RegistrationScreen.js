@@ -96,7 +96,7 @@ export const RegisterScreen = ({ navigation }) => {
     setIsShowKeyboard(true);
     handlePassFocus();
   };
-  
+
   return (
     <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
       <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -172,14 +172,14 @@ export const RegisterScreen = ({ navigation }) => {
                 onLayout={onLayoutRootView}
               >
                 <Text style={styles.btnTitle}>Зареєструватися</Text>
-              </TouchableOpacity>              
+              </TouchableOpacity>
               <View style={styles.byLine} onLayout={onLayoutRootView}>
-                <Pressable
-                  style={styles.byLineTitle}
-                  onPress={() => navigation.navigate('LoginScreen')}
-                >
-                  <Text>Вже є акаунт? Увійти</Text>
-                </Pressable>
+                <View style={styles.byLineContainer}>
+                  <Text style={styles.byLineTitle}>Вже є акаунт?&nbsp;</Text>
+                  <Pressable onPress={() => navigation.navigate('LoginScreen')}>
+                    <Text style={styles.insideLineTitle}>Увійти</Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
           )}
@@ -191,7 +191,7 @@ export const RegisterScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',    
+    backgroundColor: '#fff',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
   },
@@ -257,12 +257,22 @@ const styles = StyleSheet.create({
   },
   byLine: {
     alignItems: 'center',
-    marginTop: 16,     
+  },
+  byLineContainer: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   byLineTitle: {
     color: '#1B4371',
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
+  },
+  insideLineTitle: {
+    color: '#1B4371',
+    fontSize: 16,
+    fontFamily: 'Roboto-Regular',
+    textDecorationLine: 'underline',
   },
   pressableToogle: {
     position: 'absolute',

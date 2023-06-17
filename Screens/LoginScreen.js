@@ -123,7 +123,7 @@ export const LoginScreen = ({ navigation }) => {
               </View>
             </View>
           </KeyboardAvoidingView>
-          {!isEmailActive  && (
+          {!isEmailActive && (
             <View style={styles.down}>
               <TouchableOpacity
                 activeOpacity={0.6}
@@ -134,13 +134,12 @@ export const LoginScreen = ({ navigation }) => {
                 <Text style={styles.btnTitle}>Увійти</Text>
               </TouchableOpacity>
               <View style={styles.byLine} onLayout={onLayoutRootView}>
-                
-                <Pressable
-                  style={styles.byLineTitle}
-                  onPress={() => navigation.navigate('RegisterScreen')}
-                >
-                  <Text>Немає акаунту? Зареєструватись</Text>
-                </Pressable>               
+                <View style={styles.byLineContainer}>
+                  <Text style={styles.byLineTitle}>Немає акаунту?&nbsp;</Text>
+                  <Pressable onPress={() => navigation.navigate('RegisterScreen')}>
+                    <Text style={styles.insideLineTitle}>Зареєструватись</Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
           )}
@@ -151,10 +150,10 @@ export const LoginScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {   
-    backgroundColor: '#fff',   
+  container: {
+    backgroundColor: '#fff',
     borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,    
+    borderTopRightRadius: 50,
   },
   image: {
     flex: 1,
@@ -210,12 +209,23 @@ const styles = StyleSheet.create({
   },
   byLine: {
     alignItems: 'center',
-    marginTop: 16,   
+    marginTop: 16,
+  },
+  byLineContainer: {
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   byLineTitle: {
     color: '#1B4371',
     fontSize: 16,
+    fontFamily: 'Roboto-Regular',    
+  },
+  insideLineTitle: {
+    color: '#1B4371',
+    fontSize: 16,
     fontFamily: 'Roboto-Regular',
+    textDecorationLine: 'underline',
   },
   pressableToogle: {
     position: 'absolute',

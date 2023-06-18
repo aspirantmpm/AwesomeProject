@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
@@ -6,21 +6,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-
+import { Ionicons } from '@expo/vector-icons';
 import { RegisterScreen } from './Screens/auth/RegistrationScreen';
 import { LoginScreen } from './Screens/auth/LoginScreen';
-// import { Home } from './Screens/main/Home';
 import { PostsScreen } from './Screens/main/PostsScreen';
 import { CreatePostsScreen } from './Screens/main/CreatePostsScreen';
-// import { CommentsScreen } from './Screens/CommentsScreen';
 import { ProfileScreen } from './Screens/main/ProfileScreen';
 // import { MapScreen } from './Screens/MapScreen';
+// import { Home } from './Screens/main/Home';
+// import { CommentsScreen } from './Screens/CommentsScreen';
 
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
 export const useRoute = isAuth => {
-  const [isFocused, setIsFocused] = useState(false);
 
   if (!isAuth) {
     return (
@@ -46,14 +45,11 @@ export const useRoute = isAuth => {
       }}
     >
       <MainTab.Screen
-        name="Публікації"
+        name="PostsScreen"
         component={PostsScreen}
         options={{
           tabBarIcon: ({ focused, size, color }) => (
-            <View
-              style={styles.activeScreen}
-              backgroundColor={focused ? '#FF6C00' : '#fff'}
-            >
+            <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
               <SimpleLineIcons
                 name="grid"
                 size={24}
@@ -61,17 +57,24 @@ export const useRoute = isAuth => {
               />
             </View>
           ),
+          headerShown: true,
+          headerTitle: 'Публікації',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 17,
+            alignItems: 'center',
+          },
+          headerRight: () => (
+            <Ionicons name="exit-outline" size={24} color="black" style={{ marginRight: 10 }} />
+          ),
         }}
       />
       <MainTab.Screen
-        name="Створити публікацію"
+        name="CreatePostsScreen"
         component={CreatePostsScreen}
         options={{
           tabBarIcon: ({ focused, size, color }) => (
-            <View
-              style={styles.activeScreen}
-              backgroundColor={focused ? '#FF6C00' : '#fff'}
-            >
+            <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
               <MaterialCommunityIcons
                 name="plus"
                 size={24}
@@ -80,18 +83,22 @@ export const useRoute = isAuth => {
               />
             </View>
           ),
+          headerShown: true,
+          headerTitle: 'Створити публікацію',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 17,
+            alignItems: 'center',
+          },
         }}
       />
       <MainTab.Screen
-        name="Профіль"
+        name="ProfileScreen"
         component={ProfileScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused, size, color, backgroundColor }) => (
-            <View
-              style={styles.activeScreen}
-              backgroundColor={focused ? '#FF6C00' : '#fff'}
-            >
+            <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
               <Feather
                 name="user"
                 size={24}
@@ -100,6 +107,13 @@ export const useRoute = isAuth => {
               />
             </View>
           ),
+          headerShown: true,
+          headerTitle: 'Профіль',
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontSize: 17,
+            alignItems: 'center',
+          },
         }}
       />
     </MainTab.Navigator>
@@ -114,13 +128,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // disActiveScreen: {
-  //   width: 40,
-  //   height: 40,
-  //   borderRadius: 35,
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  // },
 });
-
-

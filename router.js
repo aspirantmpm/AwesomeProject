@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -51,13 +51,7 @@ export const useRoute = isAuth => {
         options={{
           tabBarIcon: ({ focused, size, color }) => (
             <View
-              style={{
-                width: 70,
-                height: 40,
-                borderRadius: 35,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              style={styles.activeScreen}
               backgroundColor={focused ? '#FF6C00' : '#fff'}
             >
               <SimpleLineIcons
@@ -75,13 +69,7 @@ export const useRoute = isAuth => {
         options={{
           tabBarIcon: ({ focused, size, color }) => (
             <View
-              style={{
-                width: 70,
-                height: 40,
-                borderRadius: 35,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              style={styles.activeScreen}
               backgroundColor={focused ? '#FF6C00' : '#fff'}
             >
               <MaterialCommunityIcons
@@ -101,13 +89,7 @@ export const useRoute = isAuth => {
           headerShown: false,
           tabBarIcon: ({ focused, size, color, backgroundColor }) => (
             <View
-              style={{
-                width: 70,
-                height: 40,
-                borderRadius: 35,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
+              style={styles.activeScreen}
               backgroundColor={focused ? '#FF6C00' : '#fff'}
             >
               <Feather
@@ -132,11 +114,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  disActiveScreen: {
-    width: 40,
-    height: 40,
-    borderRadius: 35,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // disActiveScreen: {
+  //   width: 40,
+  //   height: 40,
+  //   borderRadius: 35,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
 });
+
+

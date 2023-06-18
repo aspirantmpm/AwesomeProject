@@ -12,7 +12,7 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useState } from 'react';
-import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
+import { useTogglePasswordVisibility } from '../../hooks/useTogglePasswordVisibility';
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -29,7 +29,7 @@ export const LoginScreen = ({ navigation }) => {
   const [state, setState] = useState(initialState);
   const { passwordVisibility, rightIcon, handlePasswordVisibility } = useTogglePasswordVisibility();
   const [isEmailActive, setEmailIsActive] = useState(false);
-  const [isPassActive, setPassIsActive] = useState(false);  
+  const [isPassActive, setPassIsActive] = useState(false);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -39,7 +39,7 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   const [fontsLoaded] = useFonts({
-    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -79,7 +79,7 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
+    <ImageBackground style={styles.image} source={require('../../assets/images/PhotoBG.png')}>
       <TouchableWithoutFeedback onPress={keyboardHide}>
         <View style={{ ...styles.container, height: isShowKeyboard ? 248 : 489 }}>
           <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   byLineTitle: {
     color: '#1B4371',
     fontSize: 16,
-    fontFamily: 'Roboto-Regular',    
+    fontFamily: 'Roboto-Regular',
   },
   insideLineTitle: {
     color: '#1B4371',

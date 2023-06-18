@@ -13,13 +13,13 @@ import {
   Pressable,
 } from 'react-native';
 import React, { useState } from 'react';
-import { useTogglePasswordVisibility } from '../hooks/useTogglePasswordVisibility';
+import { useTogglePasswordVisibility } from '../../hooks/useTogglePasswordVisibility';
 import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import AvatarImage from '../assets/images/ava.jpg';
-import AddImage from '../assets/images/add.png';
-import AddedImage from '../assets/images/added.png';
+import AvatarImage from '../../assets/images/ava.jpg';
+import AddImage from '../../assets/images/add.png';
+import AddedImage from '../../assets/images/added.png';
 
 const initialState = {
   name: '',
@@ -45,7 +45,7 @@ export const RegisterScreen = ({ navigation }) => {
   };
 
   const [fontsLoaded] = useFonts({
-    'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
   });
 
   const onLayoutRootView = useCallback(async () => {
@@ -98,7 +98,7 @@ export const RegisterScreen = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground style={styles.image} source={require('../assets/images/PhotoBG.png')}>
+    <ImageBackground style={styles.image} source={require('../../assets/images/PhotoBG.png')}>
       <TouchableWithoutFeedback onPress={keyboardHide}>
         <View style={{ ...styles.container, height: isShowKeyboard ? 375 : 549 }}>
           <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

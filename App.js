@@ -1,10 +1,11 @@
-import { StyleSheet } from 'react-native';
+// import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { RegisterScreen } from './Screens/RegistrationScreen';
-import { LoginScreen } from './Screens/LoginScreen';
+// import { createStackNavigator } from '@react-navigation/stack';
+// import { RegisterScreen } from './Screens/auth/RegistrationScreen';
+// import { LoginScreen } from './Screens/auth/LoginScreen';
+import { useRoute } from './router';
 // import { Home } from './Screens/Home';
 // import { PostsScreen } from './Screens/PostsScreen';
 // import { CreatePostsScreen } from './Screens/CreatePostsScreen';
@@ -12,12 +13,14 @@ import { LoginScreen } from './Screens/LoginScreen';
 // import { ProfileScreen } from './Screens/ProfileScreen';
 // import { MapScreen } from './Screens/MapScreen';
 
-const MainStack = createStackNavigator();
+// const MainStack = createStackNavigator();
 
 export default function App() {
+  const routing = useRoute({});
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Home">
+      {routing}
+      {/* <MainStack.Navigator initialRouteName="Home">
         <MainStack.Screen
           name="RegisterScreen"
           component={RegisterScreen}
@@ -27,8 +30,8 @@ export default function App() {
           name="LoginScreen"
           component={LoginScreen}
           options={{ headerShown: false }}
-        />
-        {/* <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+        /> */}
+      {/* <MainStack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <MainStack.Screen
           name="PostsScreen"
           component={PostsScreen}
@@ -50,9 +53,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <MainStack.Screen name="MapScreen" component={MapScreen} options={{ headerShown: false }} /> */}
-      </MainStack.Navigator>
+      {/* </MainStack.Navigator> */}
     </NavigationContainer>
   );
 }
-
-

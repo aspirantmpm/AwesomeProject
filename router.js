@@ -39,6 +39,7 @@ export const useRoute = (isAuth) => {
   return (
     <MainTab.Navigator
       initialRouteName="Home"
+      tabBarOptions={{ showLabel: false }}
     >
       <MainTab.Screen
         name="Публікації"

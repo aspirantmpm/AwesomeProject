@@ -36,6 +36,7 @@ export const LoginScreen = ({ navigation }) => {
     Keyboard.dismiss();
     console.log(state);
     setState(initialState);
+    navigation.navigate('Home')
   };
 
   const [fontsLoaded] = useFonts({

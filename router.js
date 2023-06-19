@@ -19,27 +19,10 @@ import { ProfileScreen } from './Screens/main/ProfileScreen';
 const AuthStack = createStackNavigator();
 const MainTab = createBottomTabNavigator();
 
-export const useRoute = isAuth => {
-
-  if (!isAuth) {
-    return (
-      <AuthStack.Navigator initialRouteName="Home">
-        <AuthStack.Screen
-          name="RegisterScreen"
-          component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-        <AuthStack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-      </AuthStack.Navigator>
-    );
-  }
+function HomeTabs() {
   return (
     <MainTab.Navigator
-      initialRouteName="Home"
+      initialRouteName="PostsScreen"
       tabBarOptions={{
         showLabel: false,
       }}
@@ -119,6 +102,107 @@ export const useRoute = isAuth => {
     </MainTab.Navigator>
   );
 };
+
+
+export const useRoute = () => {  
+    return (
+      <AuthStack.Navigator initialRouteName="LoginScreen">
+        <AuthStack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+        <AuthStack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <AuthStack.Screen name="Home" component={HomeTabs} />
+      </AuthStack.Navigator>
+    );
+  }
+  // return (
+//     <MainTab.Navigator
+//       initialRouteName="Home"
+//       tabBarOptions={{
+//         showLabel: false,
+//       }}
+//     >
+//       <MainTab.Screen
+//         name="PostsScreen"
+//         component={PostsScreen}
+//         options={{
+//           tabBarIcon: ({ focused, size, color }) => (
+//             <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
+//               <SimpleLineIcons
+//                 name="grid"
+//                 size={24}
+//                 color={focused ? '#fff' : 'rgba(33, 33, 33, 0.8)'}
+//               />
+//             </View>
+//           ),
+//           headerShown: true,
+//           headerTitle: 'Публікації',
+//           headerTitleAlign: 'center',
+//           headerTitleStyle: {
+//             fontSize: 17,
+//             alignItems: 'center',
+//           },
+//           headerRight: () => (
+//             <Ionicons name="exit-outline" size={24} color="black" style={{ marginRight: 10 }} />
+//           ),
+//         }}
+//       />
+//       <MainTab.Screen
+//         name="CreatePostsScreen"
+//         component={CreatePostsScreen}
+//         options={{
+//           tabBarIcon: ({ focused, size, color }) => (
+//             <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
+//               <MaterialCommunityIcons
+//                 name="plus"
+//                 size={24}
+//                 color={focused ? '#fff' : 'rgba(33, 33, 33, 0.8)'}
+//                 backgroundColor={focused ? '#FF6C00' : '#fff'}
+//               />
+//             </View>
+//           ),
+//           headerShown: true,
+//           headerTitle: 'Створити публікацію',
+//           headerTitleAlign: 'center',
+//           headerTitleStyle: {
+//             fontSize: 17,
+//             alignItems: 'center',
+//           },
+//         }}
+//       />
+//       <MainTab.Screen
+//         name="ProfileScreen"
+//         component={ProfileScreen}
+//         options={{
+//           headerShown: false,
+//           tabBarIcon: ({ focused, size, color, backgroundColor }) => (
+//             <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
+//               <Feather
+//                 name="user"
+//                 size={24}
+//                 color={focused ? '#fff' : 'rgba(33, 33, 33, 0.8)'}
+//                 backgroundColor={focused ? '#FF6C00' : '#fff'}
+//               />
+//             </View>
+//           ),
+//           headerShown: true,
+//           headerTitle: 'Профіль',
+//           headerTitleAlign: 'center',
+//           headerTitleStyle: {
+//             fontSize: 17,
+//             alignItems: 'center',
+//           },
+//         }}
+//       />
+//     </MainTab.Navigator>
+//   );
+// };
 
 const styles = StyleSheet.create({
   activeScreen: {

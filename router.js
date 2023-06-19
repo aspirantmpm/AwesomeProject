@@ -48,7 +48,7 @@ function HomeTabs() {
             alignItems: 'center',
           },
           headerRight: () => (
-            <Ionicons name="exit-outline" size={24} color="black" style={{ marginRight: 10 }} />
+            <Ionicons name="exit-outline" size={24} color="black" style={{ marginRight: 10 }}/>
           ),
         }}
       />
@@ -117,92 +117,10 @@ export const useRoute = () => {
           component={LoginScreen}
           options={{ headerShown: false }}
         />
-        <AuthStack.Screen name="Home" component={HomeTabs} />
+        <AuthStack.Screen name="Home" component={HomeTabs} options={{ headerShown: false }} />
       </AuthStack.Navigator>
     );
   }
-  // return (
-//     <MainTab.Navigator
-//       initialRouteName="Home"
-//       tabBarOptions={{
-//         showLabel: false,
-//       }}
-//     >
-//       <MainTab.Screen
-//         name="PostsScreen"
-//         component={PostsScreen}
-//         options={{
-//           tabBarIcon: ({ focused, size, color }) => (
-//             <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
-//               <SimpleLineIcons
-//                 name="grid"
-//                 size={24}
-//                 color={focused ? '#fff' : 'rgba(33, 33, 33, 0.8)'}
-//               />
-//             </View>
-//           ),
-//           headerShown: true,
-//           headerTitle: 'Публікації',
-//           headerTitleAlign: 'center',
-//           headerTitleStyle: {
-//             fontSize: 17,
-//             alignItems: 'center',
-//           },
-//           headerRight: () => (
-//             <Ionicons name="exit-outline" size={24} color="black" style={{ marginRight: 10 }} />
-//           ),
-//         }}
-//       />
-//       <MainTab.Screen
-//         name="CreatePostsScreen"
-//         component={CreatePostsScreen}
-//         options={{
-//           tabBarIcon: ({ focused, size, color }) => (
-//             <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
-//               <MaterialCommunityIcons
-//                 name="plus"
-//                 size={24}
-//                 color={focused ? '#fff' : 'rgba(33, 33, 33, 0.8)'}
-//                 backgroundColor={focused ? '#FF6C00' : '#fff'}
-//               />
-//             </View>
-//           ),
-//           headerShown: true,
-//           headerTitle: 'Створити публікацію',
-//           headerTitleAlign: 'center',
-//           headerTitleStyle: {
-//             fontSize: 17,
-//             alignItems: 'center',
-//           },
-//         }}
-//       />
-//       <MainTab.Screen
-//         name="ProfileScreen"
-//         component={ProfileScreen}
-//         options={{
-//           headerShown: false,
-//           tabBarIcon: ({ focused, size, color, backgroundColor }) => (
-//             <View style={styles.activeScreen} backgroundColor={focused ? '#FF6C00' : '#fff'}>
-//               <Feather
-//                 name="user"
-//                 size={24}
-//                 color={focused ? '#fff' : 'rgba(33, 33, 33, 0.8)'}
-//                 backgroundColor={focused ? '#FF6C00' : '#fff'}
-//               />
-//             </View>
-//           ),
-//           headerShown: true,
-//           headerTitle: 'Профіль',
-//           headerTitleAlign: 'center',
-//           headerTitleStyle: {
-//             fontSize: 17,
-//             alignItems: 'center',
-//           },
-//         }}
-//       />
-//     </MainTab.Navigator>
-//   );
-// };
 
 const styles = StyleSheet.create({
   activeScreen: {

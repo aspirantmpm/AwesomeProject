@@ -4,27 +4,16 @@ import { Camera } from 'expo-camera';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Location from 'expo-location';
-import * as Permissions from 'expo-permissions';
+// import * as Permissions from 'expo-permissions';
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
-  
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === 'granted') {
-      const location = await Location.getCurrentPositionAsync();
-      console.log('latitude', location.coords.latitude);
-      console.log('longitude', location.coords.longitude);
-      // Використовуйте отримані координати тут
-    } else {
-      console.log('Дозвіл на використання місцезнаходження не було надано');
-      // Дозвіл на використання місцезнаходження не було надано
-    }
-    // const location = await Location.getCurrentPositionAsync();
-    
     setPhoto(photo.uri);
     console.log(photo);
   };
@@ -32,10 +21,23 @@ export const CreatePostsScreen = ({ navigation }) => {
   const sendPhoto = () => {
     console.log(navigation);
     setPhoto(null);
-    // setCamera(null);
-    navigation.navigate('PostsScreen', { photo });    
+    setCamera(null);
+    navigation.navigate('PostsScreen', { photo });
   };
 
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      console.log('latitude', location.coords.latitude);
+      console.log('longitude', location.coords.longitude);
+    })();
+  }, []);
   // useEffect(() => {
   //   if (!photo) {
   //     setCamera(null); // Автоматичне увімкнення камери при наявності фото

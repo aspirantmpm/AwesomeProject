@@ -89,8 +89,7 @@ function HomeTabs() {
                 backgroundColor={focused ? '#FF6C00' : '#fff'}
               />
             </View>
-          ),
-          headerShown: true,
+          ),          
           headerTitle: 'Профіль',
           headerTitleAlign: 'center',
           headerTitleStyle: {

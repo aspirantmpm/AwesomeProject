@@ -1,8 +1,19 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
 import AvatarImage from '../../assets/images/ava.jpg';
 
-export const PostsScreen = () => {
+export const PostsScreen = ({ route }) => {
+  const [posts, setPosts] = useState([]);
+  console.log('route.params', route.params);
+
+  useEffect(() => {
+    if (route.params) {
+      setPosts((prevState) => [...prevState, route.params]);
+    }
+  }, [route.params]);
+  // };
+  console.log(posts);
+
   return (
     <View style={styles.container}>
       <View style={styles.post}>
@@ -12,6 +23,26 @@ export const PostsScreen = () => {
           <Text style={styles.userEmail}>vadym@gmail.com</Text>
         </View>
       </View>
+      <View style={styles.photoPost}>
+      <FlatList
+        data={posts}
+        keyExtractor={(item, indx) => indx.toString()}
+        renderItem={({ item }) => (
+          <View
+            style={{
+              marginBottom: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Image
+              source={{ uri: item.photo }}
+              style={{ width: 350, height: 250, backgroundColor: '#000' }}
+            />
+          </View>
+        )}
+      />
+      </View>
     </View>
   );
 };
@@ -20,6 +51,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#E5E5E5',
+    justifyContent: 'center',
   },
   post: {
     marginTop: 32,
@@ -45,5 +77,9 @@ const styles = StyleSheet.create({
     color: 'rgba(33, 33, 33, 0.8)',
     fontSize: 11,
     fontFamily: 'Roboto-Regular',
+  },
+  photoPost: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

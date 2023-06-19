@@ -3,34 +3,62 @@ import { View, Text, Image, StyleSheet, Touchable } from 'react-native';
 import { Camera } from 'expo-camera';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+  
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === 'granted') {
+      const location = await Location.getCurrentPositionAsync();
+      console.log('latitude', location.coords.latitude);
+      console.log('longitude', location.coords.longitude);
+      // Використовуйте отримані координати тут
+    } else {
+      console.log('Дозвіл на використання місцезнаходження не було надано');
+      // Дозвіл на використання місцезнаходження не було надано
+    }
+    // const location = await Location.getCurrentPositionAsync();
+    
     setPhoto(photo.uri);
     console.log(photo);
   };
 
   const sendPhoto = () => {
     console.log(navigation);
-    navigation.navigate('PostsScreen', { photo });
+    setPhoto(null);
+    // setCamera(null);
+    navigation.navigate('PostsScreen', { photo });    
   };
+
+  // useEffect(() => {
+  //   if (!photo) {
+  //     setCamera(null); // Автоматичне увімкнення камери при наявності фото
+  //   }
+  // }, [photo]);
 
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} ref={setCamera}>
         {photo && (
           <View style={styles.takePhotoContainer}>
-            <Image source={{ uri: photo }} style={{ height: 200, width: 200 }} />
+            <Image source={{ uri: photo }} style={{ height: 240, aspectRatio: 4 / 3 }} />
           </View>
         )}
         <TouchableOpacity onPress={takePhoto} style={styles.cameraButton}>
           <FontAwesome name="camera" size={24} color="#bdbdbd" />
         </TouchableOpacity>
       </Camera>
+      {photo ? (
+        <Text style={styles.photoCaption}>Редагувати фото</Text>
+      ) : (
+        <Text style={styles.photoCaption}>Завантажити фото</Text>
+      )}
       <TouchableOpacity
         onPress={sendPhoto}
         style={[photo ? styles.activePublishButton : styles.disActivePublishButton]}
@@ -50,12 +78,12 @@ const styles = StyleSheet.create({
   },
   camera: {
     marginTop: 32,
-    height: '37.5%',
-    borderRadius: 8,
+    height: 240,
+    borderRadius: 18,
     // width: 343,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 16,
+    marginHorizontal: 20,
   },
   cameraButton: {
     width: 60,
@@ -70,9 +98,13 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     borderRadius: 8,
-    borderColor: 'green',
-    borderWidth: 1,
+    // borderColor: 'green',
+    // borderWidth: 1,
+    // width: 343,
+    // height: 0,
+    // paddingBottom: '75%',
   },
+  createPhoto: {},
   disActivePublishButton: {
     marginHorizontal: 16,
     backgroundColor: '#f6f6f6',
@@ -98,5 +130,11 @@ const styles = StyleSheet.create({
   activePublish: {
     color: '#fff',
     fontSize: 16,
+  },
+  photoCaption: {
+    color: '#bdbdbd',
+    fontSize: 16,
+    marginHorizontal: 20,
+    marginTop: 8,
   },
 });

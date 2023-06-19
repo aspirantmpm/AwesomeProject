@@ -30,7 +30,7 @@ export const PostsScreen = ({ route }) => {
         renderItem={({ item }) => (
           <View
             style={{
-              marginBottom: 10,
+              marginTop: 32,
               justifyContent: 'center',
               alignItems: 'center',
             }}

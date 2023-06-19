@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, FlatList, Button } from 'react-native';
 import AvatarImage from '../../assets/images/ava.jpg';
+
 // import { Button } from 'react-native-web';
 
 export const DefaultScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-  console.log('route.params', route.params);
+    console.log('route.params', route.params);
 
   useEffect(() => {
     if (route.params) {
@@ -13,7 +14,7 @@ export const DefaultScreen = ({ route, navigation }) => {
     }
   }, [route.params]);
   // };
-  console.log(posts);
+  console.log(posts); 
 
   return (
     <View style={styles.container}>
@@ -43,7 +44,7 @@ export const DefaultScreen = ({ route, navigation }) => {
             </View>
           )}
         />
-      </View>
+      </View>      
       <Button title="go to map" onPress={() => navigation.navigate('MapScreen')} />
       <Button title="go to Comments" onPress={() => navigation.navigate('CommentsScreen')} />
     </View>
@@ -84,5 +85,5 @@ const styles = StyleSheet.create({
   photoPost: {
     flex: 1,
     justifyContent: 'center',
-  },
+  },  
 });

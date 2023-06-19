@@ -1,14 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, Touchable } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, Image, StyleSheet, TextInput } from 'react-native';
 import { Camera } from 'expo-camera';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Location from 'expo-location';
+import { useFonts } from 'expo-font';
 // import * as Permissions from 'expo-permissions';
+
+const initialState = {
+  photoName: '',
+  locality: '',
+};
 
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
+    const [state, setState] = useState(initialState);
+    const [isPhotoNameActive, setPhotoNameIsActive] = useState(false);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -44,6 +53,41 @@ export const CreatePostsScreen = ({ navigation }) => {
   //   }
   // }, [photo]);
 
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+    //   console.log(state);
+    //   setState(initialState);
+    //   navigation.navigate('Home');
+  };
+
+  const [fontsLoaded] = useFonts({
+    'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  const handlePhotoNameFocus = () => {
+    setPhotoNameIsActive(true);
+  };
+
+  const handlePhotoNameBlur = () => {
+    setPhotoNameIsActive(false);
+  };
+
+  const handlePhotoNameOnFocus = () => {
+    setIsShowKeyboard(true);
+    handlePhotoNameFocus();
+  };
+
   return (
     <View style={styles.container}>
       <Camera style={styles.camera} ref={setCamera}>
@@ -61,6 +105,30 @@ export const CreatePostsScreen = ({ navigation }) => {
       ) : (
         <Text style={styles.photoCaption}>Завантажити фото</Text>
       )}
+      <View style={styles.inputContainer}>
+        <TextInput
+          onLayout={onLayoutRootView}
+          placeholder="Назва"
+          placeholderTextColor="#BDBDBD"
+          style={[styles.input, isPhotoNameActive ? styles.activeInput : null]}
+          onFocus={handlePhotoNameOnFocus}
+          onBlur={handlePhotoNameBlur}
+          textAlign="left"
+          onChangeText={value => setState(prevState => ({ ...prevState, photoName: value }))}
+          value={state.photoName}
+        />
+        <TextInput
+          onLayout={onLayoutRootView}
+          placeholder="Місцевість"
+          placeholderTextColor="#BDBDBD"
+          style={[styles.input, isPhotoNameActive ? styles.activeInput : null]}
+          onFocus={handlePhotoNameOnFocus}
+          onBlur={handlePhotoNameBlur}
+          textAlign="left"
+          onChangeText={value => setState(prevState => ({ ...prevState, photoName: value }))}
+          value={state.photoName}
+        />
+      </View>
       <TouchableOpacity
         onPress={sendPhoto}
         style={[photo ? styles.activePublishButton : styles.disActivePublishButton]}
@@ -138,5 +206,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: 20,
     marginTop: 8,
+  },
+  inputContainer: {
+    marginHorizontal: 20,
+    marginTop: 32,
+    gap: 16,
+  },
+  input: {
+    
+    borderWidth: 1,
+    borderColor: '#E8E8E8',
+    backgroundColor: '#f6f6f6',
+    height: 50,
+    borderRadius: 8,
+    color: '#000',
+    padding: 16,
+    fontSize: 16,
+    fontFamily: 'Roboto-Regular',
+    
+  },
+  activeInput: {
+    borderColor: '#FF6C00',
   },
 });

@@ -11,9 +11,9 @@ import {
   Keyboard,
   Pressable,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTogglePasswordVisibility } from '../../hooks/useTogglePasswordVisibility';
-import { useCallback } from 'react';
+// import { useCallback } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 

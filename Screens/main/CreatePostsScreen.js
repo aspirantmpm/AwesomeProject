@@ -22,7 +22,7 @@ export const CreatePostsScreen = ({ navigation }) => {
     console.log(navigation);
     setPhoto(null);
     setCamera(null);
-    navigation.navigate('PostsScreen', { photo });
+    navigation.navigate('DefaultScreen', { photo });
   };
 
   useEffect(() => {

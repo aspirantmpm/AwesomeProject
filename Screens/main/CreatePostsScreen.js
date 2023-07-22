@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, Image, StyleSheet, TextInput } from 'react-native';
 import { Camera } from 'expo-camera';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import { useFonts } from 'expo-font';
-// import { SplashScreen } from 'expo';
 import * as Permissions from 'expo-permissions';
+import { useIsFocused } from '@react-navigation/native';
+import { useNavigationState } from '@react-navigation/native';
 
 const initialState = {
   photoName: '',
@@ -23,6 +24,12 @@ export const CreatePostsScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
+  const cameraRef = useRef(null);
+  const navigationState = useNavigationState(state => state);
+  const isFocused =
+    navigationState.index ===
+    navigationState.routes.findIndex(route => route.name === 'CreatePostsScreen');
+
   useEffect(() => {
     (async () => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -30,19 +37,62 @@ export const CreatePostsScreen = ({ navigation }) => {
         console.log('Permission to access camera denied');
         return;
       }
+
+      // При активації екрану забезпечуємо запуск камери
+      if (!camera) {
+        setCamera(cameraRef.current);
+      }
     })();
   }, []);
 
+  
+
+  useEffect(() => {
+    if (isFocused) {
+      // Включення камери при визначенні фокусу екрану
+      if (cameraRef.current) {
+        setCamera(cameraRef.current);
+      }
+    } else {
+      // Очищення стану, коли екран не в фокусі
+      resetState();
+    }
+  }, [isFocused]);
+
   const takePhoto = async () => {
-    const photo = await camera.takePictureAsync();
-    setPhoto(photo.uri);
-    console.log(photo);
+    try {
+      if (camera) {
+        const photo = await camera.takePictureAsync();
+        setPhoto(photo.uri);
+        console.log(photo);
+      }
+    } catch (error) {
+      console.log('Error taking photo:', error);
+    }
   };
+
+  const resetState = () => {
+    setPhoto(null);
+    setCamera(null); // Забезпечуємо очищення стану камери
+    setState(initialState);
+  };
+
+  // const sendPhoto = async () => {
+  //   if (cameraRef.current) {
+  //     try {
+  //       const photo = await cameraRef.current.takePictureAsync();
+  //       setPhoto(photo.uri);
+  //       navigation.navigate('DefaultScreen', { photo });
+  //     } catch (error) {
+  //       console.log('Error taking photo:', error);
+  //     }
+  //   }
+  // };
 
   const sendPhoto = () => {
     console.log(navigation);
     setPhoto(null);
-    setCamera(null);
+    setCamera(cameraRef.current);
     navigation.navigate('DefaultScreen', { photo });
   };
 
@@ -68,9 +118,8 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
-    Keyboard.dismiss();    
+    Keyboard.dismiss();
   };
-
   const [fontsLoaded] = useFonts({
     'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
   });
@@ -107,7 +156,7 @@ export const CreatePostsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} ref={setCamera}>
+      <Camera style={styles.camera} ref={cameraRef}>
         {photo && (
           <View style={styles.takePhotoContainer}>
             <Image source={{ uri: photo }} style={{ height: 240, aspectRatio: 4 / 3 }} />
@@ -123,7 +172,7 @@ export const CreatePostsScreen = ({ navigation }) => {
         <Text style={styles.photoCaption}>Завантажити фото</Text>
       )}
       <View style={styles.inputContainer}>
-        <TextInput        
+        <TextInput
           placeholder="Назва"
           placeholderTextColor="#BDBDBD"
           style={[styles.input, isPhotoNameActive ? styles.activeInput : null]}
@@ -133,7 +182,7 @@ export const CreatePostsScreen = ({ navigation }) => {
           onChangeText={value => setState(prevState => ({ ...prevState, photoName: value }))}
           value={state.photoName}
         />
-        <TextInput      
+        <TextInput
           placeholder="Місцевість"
           placeholderTextColor="#BDBDBD"
           style={[styles.input, isLocationActive ? styles.activeInput : null]}

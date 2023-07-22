@@ -5,7 +5,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import { useFonts } from 'expo-font';
-// import * as Permissions from 'expo-permissions';
+// import { SplashScreen } from 'expo';
+import * as Permissions from 'expo-permissions';
 
 const initialState = {
   photoName: '',
@@ -15,11 +16,22 @@ const initialState = {
 export const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
-    const [state, setState] = useState(initialState);
-    const [isPhotoNameActive, setPhotoNameIsActive] = useState(false);
+  const [state, setState] = useState(initialState);
+  const [isPhotoNameActive, setPhotoNameIsActive] = useState(false);
+  const [isLocationActive, setLocationIsActive] = useState(false);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA);
+      if (status !== 'granted') {
+        console.log('Permission to access camera denied');
+        return;
+      }
+    })();
+  }, []);
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
@@ -47,29 +59,21 @@ export const CreatePostsScreen = ({ navigation }) => {
       console.log('longitude', location.coords.longitude);
     })();
   }, []);
-  // useEffect(() => {
-  //   if (!photo) {
-  //     setCamera(null); // Автоматичне увімкнення камери при наявності фото
-  //   }
-  // }, [photo]);
+
+  useEffect(() => {
+    if (!photo) {
+      setCamera(null);
+    }
+  }, [photo]);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
-    Keyboard.dismiss();
-    //   console.log(state);
-    //   setState(initialState);
-    //   navigation.navigate('Home');
+    Keyboard.dismiss();    
   };
 
   const [fontsLoaded] = useFonts({
     'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
   });
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
@@ -86,6 +90,19 @@ export const CreatePostsScreen = ({ navigation }) => {
   const handlePhotoNameOnFocus = () => {
     setIsShowKeyboard(true);
     handlePhotoNameFocus();
+  };
+
+  const handleLocationFocus = () => {
+    setLocationIsActive(true);
+  };
+
+  const handleLocationBlur = () => {
+    setLocationIsActive(false);
+  };
+
+  const handleLocationOnFocus = () => {
+    setIsShowKeyboard(true);
+    handleLocationFocus();
   };
 
   return (
@@ -106,8 +123,7 @@ export const CreatePostsScreen = ({ navigation }) => {
         <Text style={styles.photoCaption}>Завантажити фото</Text>
       )}
       <View style={styles.inputContainer}>
-        <TextInput
-          onLayout={onLayoutRootView}
+        <TextInput        
           placeholder="Назва"
           placeholderTextColor="#BDBDBD"
           style={[styles.input, isPhotoNameActive ? styles.activeInput : null]}
@@ -117,16 +133,15 @@ export const CreatePostsScreen = ({ navigation }) => {
           onChangeText={value => setState(prevState => ({ ...prevState, photoName: value }))}
           value={state.photoName}
         />
-        <TextInput
-          onLayout={onLayoutRootView}
+        <TextInput      
           placeholder="Місцевість"
           placeholderTextColor="#BDBDBD"
-          style={[styles.input, isPhotoNameActive ? styles.activeInput : null]}
-          onFocus={handlePhotoNameOnFocus}
-          onBlur={handlePhotoNameBlur}
+          style={[styles.input, isLocationActive ? styles.activeInput : null]}
+          onFocus={handleLocationOnFocus}
+          onBlur={handleLocationBlur}
           textAlign="left"
-          onChangeText={value => setState(prevState => ({ ...prevState, photoName: value }))}
-          value={state.photoName}
+          onChangeText={value => setState(prevState => ({ ...prevState, location: value }))}
+          value={state.location}
         />
       </View>
       <TouchableOpacity
@@ -141,16 +156,12 @@ export const CreatePostsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // alignItems: 'center',
-
-    // borderRadius: 130,
+    flex: 1,   
   },
   camera: {
     marginTop: 32,
     height: 240,
-    borderRadius: 18,
-    // width: 343,
+    borderRadius: 18,  
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 20,
@@ -168,11 +179,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     borderRadius: 8,
-    // borderColor: 'green',
-    // borderWidth: 1,
-    // width: 343,
-    // height: 0,
-    // paddingBottom: '75%',
   },
   createPhoto: {},
   disActivePublishButton: {
@@ -213,7 +219,6 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   input: {
-    
     borderWidth: 1,
     borderColor: '#E8E8E8',
     backgroundColor: '#f6f6f6',
@@ -223,7 +228,6 @@ const styles = StyleSheet.create({
     padding: 16,
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
-    
   },
   activeInput: {
     borderColor: '#FF6C00',
